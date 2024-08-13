@@ -1,0 +1,95 @@
+load_kN = [0 1.375 2.749 4.91 6.481 8.543 9.132 10.114 11.194 11.979 13.157 13.844 14.336 16.005 16.593 17.281 18.459 19.638 20.325 21.798 22.976 24.744];
+axial_strain_x10_4 = [0 0.596 1.098 1.887 2.519 3.236 3.511 3.959 4.426 4.7 5.274 5.668 5.989 6.6 7.017 7.342 7.93 8.638 9.5 10.298 11.432 13.262];
+circumferential_strain_x10_4 = [0 -0.076 -0.17 -0.34 -0.489 -0.66 -0.732 -0.843 -0.97 -1.049 -1.219 -1.33 -1.432 -1.657 -1.809 -1.945 -2.198 -2.543 -3.057 -3.56 -4.487 -6.434];
+axial_strain = axial_strain_x10_4 * 1e-4;
+circumferential_strain = circumferential_strain_x10_4 * 1e-4;
+volumetric_strain = axial_strain + 2 * circumferential_strain;
+sample_diameter = 20 * 1e-3; 
+sample_area = pi * (sample_diameter / 2)^2;
+stress_Pa = load_kN * 1e3 / sample_area; 
+figure;
+subplot(1, 3, 1);
+plot(axial_strain, stress_Pa, 'b', 'LineWidth', 1.5);
+xlabel('Axial Strain');
+ylabel('Stress (Pa)');
+title('Stress vs Axial Strain');
+subplot(1, 3, 2);
+plot(circumferential_strain, stress_Pa, 'r', 'LineWidth', 1.5);
+xlabel('Circumferential Strain');
+ylabel('Stress (Pa)');
+title('Stress vs Circumferential Strain');
+subplot(1, 3, 3);
+plot(volumetric_strain, stress_Pa, 'g', 'LineWidth', 1.5);
+xlabel('Volumetric Strain');
+ylabel('Stress (Pa)');
+title('Stress vs Volumetric Strain');
+elastic_range = 1:10; 
+yield_point = 11; 
+subplot(1, 3, 1);
+hold on;
+plot(axial_strain(elastic_range), stress_Pa(elastic_range), 'bo', 'MarkerSize', 8);
+plot(axial_strain(yield_point), stress_Pa(yield_point), 'rx', 'MarkerSize', 10);
+legend('Stress vs Axial Strain', 'Elastic Portion', 'Yield Point');
+subplot(1, 3, 2);
+hold on;
+plot(circumferential_strain(elastic_range), stress_Pa(elastic_range), 'ro', 'MarkerSize', 8);
+plot(circumferential_strain(yield_point), stress_Pa(yield_point), 'bx', 'MarkerSize', 10);
+legend('Stress vs Circumferential Strain', 'Elastic Portion', 'Yield Point');
+subplot(1, 3, 3);
+hold on;
+plot(volumetric_strain(elastic_range), stress_Pa(elastic_range), 'go', 'MarkerSize', 8);
+plot(volumetric_strain(yield_point), stress_Pa(yield_point), 'bx', 'MarkerSize', 10);
+legend('Stress vs Volumetric Strain', 'Elastic Portion', 'Yield Point');
+
+
+load_kN = [0 1.375 2.749 4.910 6.481 8.543 9.132 10.114 11.194 11.979 13.157 13.844 14.336 16.005 16.593 17.281 18.459 19.638 20.325 21.798 22.976 24.744];
+axial_strain = [0 0.596 1.098 1.887 2.519 3.236 3.511 3.959 4.426 4.700 5.274 5.668 5.989 6.600 7.017 7.342 7.930 8.638 9.500 10.298 11.432 13.262] * 1e-4;
+circumferential_strain = [0 -0.076 -0.170 -0.340 -0.489 -0.660 -0.732 -0.843 -0.970 -1.049 -1.219 -1.330 -1.432 -1.657 -1.809 -1.945 -2.198 -2.543 -3.057 -3.560 -4.487 -6.434] * 1e-4;
+volumetric_strain = axial_strain + 2 * circumferential_strain;
+diameter = 20e-3; 
+area = pi * (diameter/2)^2; 
+stress_Pa = load_kN * 1e3 / area; 
+elastic_region = 1:5;
+p = polyfit(axial_strain(elastic_region), stress_Pa(elastic_region), 1);
+E = p(1); 
+nu = -mean(circumferential_strain(elastic_region)) / mean(axial_strain(elastic_region));
+fprintf('Young''s modulus (E): %.2f GPa\n', E * 1e-9); 
+fprintf('Poisson''s ratio (ν): %.4f\n', nu);
+
+
+load_kN = [0 1.375 2.749 4.91 6.481 8.543 9.132 10.114 11.194 11.979 13.157 13.844 14.336 16.005 16.593 17.281 18.459 19.638 20.325 21.798 22.976 24.744];
+axial_strain_x10_4 = [0 0.596 1.098 1.887 2.519 3.236 3.511 3.959 4.426 4.7 5.274 5.668 5.989 6.6 7.017 7.342 7.93 8.638 9.5 10.298 11.432 13.262];
+circumferential_strain_x10_4 = [0 -0.076 -0.17 -0.34 -0.489 -0.66 -0.732 -0.843 -0.97 -1.049 -1.219 -1.33 -1.432 -1.657 -1.809 -1.945 -2.198 -2.543 -3.057 -3.56 -4.487 -6.434];
+axial_strain = axial_strain_x10_4 * 1e-4;
+circumferential_strain = circumferential_strain_x10_4 * 1e-4;
+volumetric_strain = axial_strain + 2 * circumferential_strain;
+sample_diameter = 20 * 1e-3;
+sample_area = pi * (sample_diameter / 2)^2;
+stress_Pa = load_kN * 1e3 / sample_area;
+figure;
+plot(axial_strain, stress_Pa, 'b', 'LineWidth', 1.5, 'DisplayName', 'Stress vs Axial Strain');
+hold on;
+plot(circumferential_strain, stress_Pa, 'r', 'LineWidth', 1.5, 'DisplayName', 'Stress vs Circumferential Strain');
+plot(volumetric_strain, stress_Pa, 'g', 'LineWidth', 1.5, 'DisplayName', 'Stress vs Volumetric Strain');
+xlabel('Strain');
+ylabel('Stress (Pa)');
+legend('Location', 'Best');
+title('Stress-Strain Behavior');
+
+
+load_kN = [0 1.375 2.749 4.91 6.481 8.543 9.132 10.114 11.194 11.979 13.157 13.844 14.336 16.005 16.593 17.281 18.459 19.638 20.325 21.798 22.976 24.744];
+axial_strain_x10_4 = [0 0.596 1.098 1.887 2.519 3.236 3.511 3.959 4.426 4.7 5.274 5.668 5.989 6.6 7.017 7.342 7.93 8.638 9.5 10.298 11.432 13.262];
+circumferential_strain_x10_4 = [0 -0.076 -0.17 -0.34 -0.489 -0.66 -0.732 -0.843 -0.97 -1.049 -1.219 -1.33 -1.432 -1.657 -1.809 -1.945 -2.198 -2.543 -3.057 -3.56 -4.487 -6.434];
+axial_strain = axial_strain_x10_4 * 1e-4;
+circumferential_strain = circumferential_strain_x10_4 * 1e-4;
+volumetric_strain = axial_strain + 2 * circumferential_strain;
+sample_diameter = 20 * 1e-3;
+sample_area = pi * (sample_diameter / 2)^2;
+stress_Pa = load_kN * 1e3 / sample_area;
+figure;
+plot(volumetric_strain, stress_Pa, 'g', 'LineWidth', 1.5);
+xlabel('Volumetric Strain');
+ylabel('Stress (Pa)');
+title('Stress vs Volumetric Strain');
+
+
